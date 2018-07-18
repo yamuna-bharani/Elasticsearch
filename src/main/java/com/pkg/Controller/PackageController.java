@@ -22,7 +22,7 @@ public class PackageController {
     ElkServiceHandler serviceHandler ;
 
     @PostMapping(URIConstants.STORE)
-    public BaseResponse storePackageData(@RequestBody PackageData pkgData) {
+    public PkgResponse storePackageData(@RequestBody PackageData pkgData) {
         return serviceHandler.save(pkgData);
     }
 

@@ -16,7 +16,7 @@ public class ElkServiceHandler extends PkgServiceHandler {
     private static final ServiceType serviceType = ServiceType.ELK;
 
     @Override
-    public BaseResponse save(PackageData pkgData) {
+    public PkgResponse save(PackageData pkgData) {
         this.setServiceType(serviceType);
         return super.save(pkgData);
     }

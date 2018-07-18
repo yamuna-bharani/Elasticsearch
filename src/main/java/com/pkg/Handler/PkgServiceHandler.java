@@ -12,8 +12,14 @@ import com.pkg.Utils.ExecutorUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
 
 import lombok.Data;
 
@@ -24,39 +30,56 @@ import lombok.Data;
 @Data
 public class PkgServiceHandler {
     @Autowired
-    private ServiceFactory serviceFactory ; //= ApplicationContextProvider.getBean(ServiceFactory.class, "serviceFactory");
+    private ServiceFactory serviceFactory ;
 
-    /*public PkgServiceHandler(){
-        this.setPkgService(serviceFactory.getService(serviceType));
-    }*/
+
 
     protected ServiceType serviceType = ServiceType.ELK;
     private PackageService pkgService;
 
-    public BaseResponse save(PackageData pkgData) {
+    public PkgResponse save(PackageData pkgData) {
+
         this.setPkgService(serviceFactory.getService(serviceType));
 
-        BaseResponse baseResponse = new BaseResponse();
-        //PackageService pkgService = serviceFactory.getService(serviceType);
+        PkgResponse pkgResponse = new PkgResponse();
 
-        //pre-check
-        /*if(Objects.isNull(pkgService)) {
-            baseResponse.setError(new Error("invalid service type"));
-        }*/
+        List<Future<PackageData>> pkgDataList = new ArrayList<>();
 
+        FutureTask<PackageData> futureTask = new FutureTask<PackageData>(new Callable<PackageData>() {
+            public PackageData call() {
+                try {
+                    return pkgService.save(pkgData);
+                } catch (Exception e) {
+                    return null;
+                }
+            }
+        });
+        pkgDataList.add((Future<PackageData>) ExecutorUtil.getThreadPool().submit(futureTask));
+
+/*
         try {
             ExecutorUtil.getThreadPool().submit(() -> {
                 pkgService.save(pkgData);
             });
         } catch (Exception e) {
-            baseResponse.setSuccess(false);
-            baseResponse.setError(new Error(e.getMessage()));
+            pkgResponse.setSuccess(false);
+            pkgResponse.setError(new Error(e.getMessage()));
+        }
+*/
+
+        try {
+            pkgResponse.setPackageDatas(Arrays.asList(pkgDataList.get(0).get()));
+        } catch (InterruptedException e) {
+            pkgResponse.setSuccess(false);
+            pkgResponse.setError(new Error(e.getMessage()));
+        } catch (ExecutionException e) {
+            pkgResponse.setSuccess(false);
+            pkgResponse.setError(new Error(e.getMessage()));
         }
 
-
-        baseResponse.setSuccess(true);
-        baseResponse.setMessage("Your data has been stored");
-        return baseResponse;
+        pkgResponse.setSuccess(true);
+        pkgResponse.setMessage("Your data has been stored");
+        return pkgResponse;
     }
 
     public PkgResponse findByCity(String city) {
@@ -72,7 +95,6 @@ public class PkgServiceHandler {
             pkgResponse.setError(new Error(e.getMessage()));
         }
 
-        //post-check
         if(Objects.isNull(packageDatas) || packageDatas.size()==0) {
             pkgResponse.setMessage("No such package data stored");
         } else {
