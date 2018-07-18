@@ -20,13 +20,9 @@ public class PackageElkServiceImpl implements PackageService{
     @Autowired
     private PackageRepository packageRepository ;
 
-    public void setPackageRepository(PackageRepository packageRepository) {
-        this.packageRepository = packageRepository;
-    }
-
     @Override
-    public void save(PackageData pkgData) {
-        packageRepository.save(pkgData);
+    public PackageData save(PackageData pkgData){
+        return packageRepository.save(pkgData);
     }
 
     @Override

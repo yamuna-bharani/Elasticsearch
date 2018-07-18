@@ -1,4 +1,4 @@
-package com.pkg;
+package com.pkg.Utils;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;

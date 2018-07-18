@@ -1,9 +1,10 @@
 package com.pkg.Controller;
 
 
-import com.pkg.ExecutorUtil;
+import com.pkg.Handler.ElkServiceHandler;
+import com.pkg.Model.BaseResponse;
 import com.pkg.Model.PackageData;
-import com.pkg.Service.PackageService;
+import com.pkg.Model.PkgResponse;
 import com.pkg.Utils.URIConstants;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,25 +14,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
+//ELK controller
 public class PackageController {
 
     @Autowired
-    PackageService pkgService;
+    ElkServiceHandler serviceHandler ;
 
     @PostMapping(URIConstants.STORE)
-    public void storePackageData(@RequestBody PackageData pkgData) {
-        ExecutorUtil.getThreadPool().submit(() -> {
-            pkgService.save(pkgData);
-        });
-
+    public BaseResponse storePackageData(@RequestBody PackageData pkgData) {
+        return serviceHandler.save(pkgData);
     }
 
     @GetMapping(URIConstants.DETAIL)
-    public List<PackageData> getPackages(@PathVariable String city) {
-        return pkgService.findByCity(city);
+    public PkgResponse getPackages(@PathVariable String city) {
+        return serviceHandler.findByCity(city);
     }
 
 }

@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface PackageService {
 
-    void save(PackageData pkgData);
+    PackageData save(PackageData pkgData);
 
     List<PackageData> findByCity(String PackageData);
 }
