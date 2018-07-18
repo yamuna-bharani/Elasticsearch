@@ -6,7 +6,6 @@ import com.pkg.Model.PackageData;
 import com.pkg.Model.PkgResponse;
 import com.pkg.Model.ServiceFactory;
 import com.pkg.Service.PackageService;
-import com.pkg.Utils.ApplicationContextProvider;
 import com.pkg.Utils.ExecutorUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +23,7 @@ import lombok.Data;
 @Data
 public class PkgServiceHandler {
     @Autowired
-    private ServiceFactory serviceFactory ; //= ApplicationContextProvider.getBean(ServiceFactory.class, "serviceFactory");
-
-    /*public PkgServiceHandler(){
-        this.setPkgService(serviceFactory.getService(serviceType));
-    }*/
-
+    private ServiceFactory serviceFactory ;
     protected ServiceType serviceType = ServiceType.ELK;
     private PackageService pkgService;
 
@@ -37,7 +31,6 @@ public class PkgServiceHandler {
         this.setPkgService(serviceFactory.getService(serviceType));
 
         BaseResponse baseResponse = new BaseResponse();
-        //PackageService pkgService = serviceFactory.getService(serviceType);
 
         //pre-check
         /*if(Objects.isNull(pkgService)) {

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 //ELK controller
-public class PackageController {
+public class PackageElkController {
 
     @Autowired
     ElkServiceHandler serviceHandler ;
