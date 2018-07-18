@@ -68,6 +68,7 @@ public class ElkServiceHandler {
             pkgResponse.setMessage("No such package data stored");
         } else {
             pkgResponse.setSuccess(true);
+            pkgResponse.setMessage("Data retrieved successfully");
             pkgResponse.setPackageDatas(packageDataList);
 
         }
