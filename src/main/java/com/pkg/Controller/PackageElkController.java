@@ -5,7 +5,7 @@ import com.pkg.Handler.ElkServiceHandler;
 import com.pkg.Model.BaseResponse;
 import com.pkg.Model.PackageData;
 import com.pkg.Model.PkgResponse;
-import com.pkg.Utils.URIConstants;
+import com.pkg.Utils.Constants;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,12 +21,12 @@ public class PackageElkController {
     @Autowired
     ElkServiceHandler serviceHandler;
 
-    @PostMapping(URIConstants.STORE)
+    @PostMapping(Constants.STORE)
     public BaseResponse storePackageData(@RequestBody PackageData pkgData) {
         return serviceHandler.save(pkgData);
     }
 
-    @GetMapping(URIConstants.DETAIL)
+    @GetMapping(Constants.DETAIL)
     public PkgResponse getPackages(@PathVariable String city) {
         return serviceHandler.findByCity(city);
     }

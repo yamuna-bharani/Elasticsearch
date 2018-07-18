@@ -1,5 +1,7 @@
 package com.pkg.Configuration;
 
+import com.pkg.Utils.Constants;
+
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
@@ -17,25 +19,25 @@ import java.net.InetAddress;
 @EnableElasticsearchRepositories(basePackages = "com.pkg")
 public class ElkConfig {
 
-    @Value("${elasticsearch.host}")
+    @Value(Constants.ELK_HOST_PROP)
     private String EsHost;
 
-    @Value("${elasticsearch.port}")
+    @Value(Constants.ELK_PORT_PROP)
     private int EsPort;
 
-    @Value("${elasticsearch.clustername}")
+    @Value(Constants.ELK_CLUSTER_NAME_PROP)
     private String EsClusterName;
 
     @Bean
     public Client client() throws Exception {
 
         Settings esSettings = Settings.builder()
-                .put("cluster.name", EsClusterName)
+                .put(Constants.CLUSTER_NAME_PROP, EsClusterName)
                 .build();
 
         return new PreBuiltTransportClient(esSettings)
                 .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(EsHost), EsPort))
-                .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(EsHost), 9301));
+                .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(EsHost), Constants.ALIAS_PORT));
 
     }
 

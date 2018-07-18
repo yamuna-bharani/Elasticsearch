@@ -1,4 +1,4 @@
-package com.pkg.Model;
+package com.pkg.Service;
 
 import com.pkg.Service.PackageElkServiceImpl;
 import com.pkg.Service.PackageService;

@@ -4,8 +4,7 @@ import com.pkg.Enum.ServiceType;
 import com.pkg.Model.BaseResponse;
 import com.pkg.Model.PackageData;
 import com.pkg.Model.PkgResponse;
-import com.pkg.Model.ServiceFactory;
-import com.pkg.Service.PackageService;
+import com.pkg.Service.ServiceFactory;
 import com.pkg.Utils.ExecutorUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +43,7 @@ public class ElkServiceHandler {
         } catch (Exception e) {
             baseResponse.setSuccess(false);
             baseResponse.setError(new Error(e.getMessage()));
+            return baseResponse;
         }
 
         baseResponse.setSuccess(true);
