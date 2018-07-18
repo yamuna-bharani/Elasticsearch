@@ -33,12 +33,10 @@ public class ElkConfig {
                 .put("cluster.name", EsClusterName)
                 .build();
 
-        Client client = new PreBuiltTransportClient(esSettings)
+        return new PreBuiltTransportClient(esSettings)
                 .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(EsHost), EsPort))
                 .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(EsHost), 9301));
 
-
-        return client;
     }
 
     @Bean

@@ -1,5 +1,6 @@
 package com.pkg.Model;
 
+import lombok.Builder;
 import lombok.Data;
 
 /**
