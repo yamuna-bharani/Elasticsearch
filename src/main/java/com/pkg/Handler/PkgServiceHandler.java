@@ -23,12 +23,11 @@ import lombok.Data;
 @Data
 public class PkgServiceHandler {
     @Autowired
-    private ServiceFactory serviceFactory ;
+    private ServiceFactory serviceFactory;
     protected ServiceType serviceType;
-    private PackageService pkgService;
+
 
     public BaseResponse save(PackageData pkgData) {
-        this.setPkgService(serviceFactory.getService(serviceType));
 
         BaseResponse baseResponse = new BaseResponse();
 
@@ -39,13 +38,12 @@ public class PkgServiceHandler {
 
         try {
             ExecutorUtil.getThreadPool().submit(() -> {
-                pkgService.save(pkgData);
+                serviceFactory.getService(serviceType).save(pkgData);
             });
         } catch (Exception e) {
             baseResponse.setSuccess(false);
             baseResponse.setError(new Error(e.getMessage()));
         }
-
 
         baseResponse.setSuccess(true);
         baseResponse.setMessage("Your data has been stored");
@@ -53,24 +51,23 @@ public class PkgServiceHandler {
     }
 
     public PkgResponse findByCity(String city) {
-        this.setPkgService(serviceFactory.getService(serviceType));
 
         PkgResponse pkgResponse = new PkgResponse();
-        List<PackageData> packageDatas = null;
+        List<PackageData> packageDataList= null;
 
-        try{
-            packageDatas = pkgService.findByCity(city);
+        try {
+            packageDataList = serviceFactory.getService(serviceType).findByCity(city);
         } catch (Exception e) {
             pkgResponse.setSuccess(false);
             pkgResponse.setError(new Error(e.getMessage()));
         }
 
         //post-check
-        if(Objects.isNull(packageDatas) || packageDatas.size()==0) {
+        if (Objects.isNull(packageDataList) || packageDataList.size() == 0) {
             pkgResponse.setMessage("No such package data stored");
         } else {
             pkgResponse.setSuccess(true);
-            pkgResponse.setPackageDatas(packageDatas);
+            pkgResponse.setPackageDatas(packageDataList);
 
         }
         return pkgResponse;

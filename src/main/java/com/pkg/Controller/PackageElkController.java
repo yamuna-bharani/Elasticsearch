@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PackageElkController {
 
     @Autowired
-    ElkServiceHandler serviceHandler ;
+    ElkServiceHandler serviceHandler;
 
     @PostMapping(URIConstants.STORE)
     public BaseResponse storePackageData(@RequestBody PackageData pkgData) {
