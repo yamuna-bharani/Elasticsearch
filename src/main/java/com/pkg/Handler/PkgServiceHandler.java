@@ -24,7 +24,7 @@ import lombok.Data;
 public class PkgServiceHandler {
     @Autowired
     private ServiceFactory serviceFactory ;
-    protected ServiceType serviceType = ServiceType.ELK;
+    protected ServiceType serviceType;
     private PackageService pkgService;
 
     public BaseResponse save(PackageData pkgData) {

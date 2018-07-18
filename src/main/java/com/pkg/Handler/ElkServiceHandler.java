@@ -13,17 +13,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class ElkServiceHandler extends PkgServiceHandler {
 
-    private static final ServiceType serviceType = ServiceType.ELK;
-
-    @Override
-    public BaseResponse save(PackageData pkgData) {
-        this.setServiceType(serviceType);
-        return super.save(pkgData);
+    {
+        this.serviceType = ServiceType.ELK;
     }
 
-    @Override
-    public PkgResponse findByCity(String city) {
-        this.setServiceType(serviceType);
-        return super.findByCity(city);
-    }
 }
