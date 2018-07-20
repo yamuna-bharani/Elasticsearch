@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 
-@Document(indexName = "elasticsearch", type = "package")
+@Document(indexName = "package", type = "package")
 public class PackageData {
     @Id
     private String name;
